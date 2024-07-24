@@ -20,7 +20,7 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
     void deleteByEmail(String email);
     Optional<ProfessorModel> findByCelular(String celular);
     void deleteByCelular(String celular);
-    boolean existsByMatricula(int matricula);
+    boolean existsByMatricula(int matricula); //Pedir para explicar
     @Query(value = """
             SELECT	p.matricula as matricula
             	,	p.nome as nomeProfessor
