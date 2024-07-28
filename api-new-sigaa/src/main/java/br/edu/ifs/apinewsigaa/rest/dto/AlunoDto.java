@@ -1,29 +1,31 @@
-package br.edu.ifs.apinewsigaa.model;
+package br.edu.ifs.apinewsigaa.rest.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "professor")
-public class ProfessorModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class AlunoDto { //DTO é a fronteira da API ligando o front e o back
+                        //A requisição http GET será influenciada pelos campos instanciados no DTO
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
+
     @Column(name = "cpf", length = 14, nullable = false, unique = true)
     private String cpf;
+
     @Column(name = "email", length = 255, nullable = false, unique = true)
     private String email;
+
     @Column(name = "dataNascimento", nullable = false)
     private Date dataNascimento;
+
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
+
+    @Column(name = "apelido", length = 255, nullable = true)
+    private String apelido;
+
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
-    @Column(name = "endereço", nullable = false, unique = false)
-    private String endereco;
 }

@@ -1,17 +1,12 @@
-package br.edu.ifs.apinewsigaa.model;
+package br.edu.ifs.apinewsigaa.rest.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "professor")
-public class ProfessorModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class ProfessorDto {
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
     @Column(name = "cpf", length = 14, nullable = false, unique = true)
@@ -23,7 +18,5 @@ public class ProfessorModel {
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
     @Column(name = "matricula", nullable = false, unique = true)
-    private String matricula;
-    @Column(name = "endereço", nullable = false, unique = false)
-    private String endereco;
+    private int matricula;
 }

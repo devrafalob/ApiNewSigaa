@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository //CRUD
 public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integer> { // ENTREGA AS OPERACOES BASICAS BASEADAS NA CHAVE PRIMARIA
-    Optional<ProfessorModel> findByMatricula(int matricula);
+    Optional<ProfessorModel> findByMatricula(String matricula);
     void deleteByMatricula(int matricula);
     Optional<ProfessorModel> findByCpf(String cpf);
     void deleteByCpf(String cpf);
@@ -20,12 +20,12 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
     void deleteByEmail(String email);
     Optional<ProfessorModel> findByCelular(String celular);
     void deleteByCelular(String celular);
-    boolean existsByMatricula(int matricula); //Pedir para explicar
+    boolean existsByMatricula(int matricula);
     @Query(value = """
             SELECT	p.matricula as matricula
             	,	p.nome as nomeProfessor
             	,	d.nome as nomeDisciplina
-            	,	d.numeroCreditos as numeroCreditos 
+            	,	d.numeroCreditos as numeroCreditos
             	FROM professor p
             		INNER JOIN turma t
             			ON (p.id = t.idProfessor)
