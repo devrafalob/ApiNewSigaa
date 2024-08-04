@@ -1,7 +1,9 @@
 package br.edu.ifs.apinewsigaa.model;
 
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "professor")
 public class ProfessorModel {
+    private ModelMapper modelMapper;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,4 +29,8 @@ public class ProfessorModel {
     private String matricula;
     @Column(name = "endereço", nullable = false, unique = false)
     private String endereco;
+
+    public ProfessorDto toDto(){
+        return modelMapper.map(this, ProfessorDto.class);
+    }
 }

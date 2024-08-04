@@ -17,7 +17,6 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
     Optional<ProfessorModel> findByCpf(String cpf);
     void deleteByCpf(String cpf);
     Optional<ProfessorModel> findByEmail(String email);
-    void deleteByEmail(String email);
     Optional<ProfessorModel> findByCelular(String celular);
     void deleteByCelular(String celular);
     boolean existsByMatricula(int matricula);

@@ -17,7 +17,6 @@ public class AlunoService { //Classe de serviço é uma classe onde possui regra
 
     @Autowired
     private AlunoRepository alunoRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -32,22 +31,16 @@ public class AlunoService { //Classe de serviço é uma classe onde possui regra
         Optional<AlunoModel> alunoOptional = alunoRepository.findByMatricula(matricula);
         AlunoModel alunoModel = alunoOptional.orElseThrow(() ->
                 new ObjectNotFoundException("ERRO: Matrícula não encontrada! Matrícula: " + matricula));
-
-        return modelMapper.map(alunoModel, AlunoDto.class); //SETTA o dado que está em alunoModel para o DTO
+        return alunoModel.toDto();
     }
-        /**
-         * Obtém todos os alunos cadastrados.
-         *
-         * @return Uma lista de objetos AlunoDto correspondentes aos alunos cadastrados.
-         */
 
-        public List<AlunoDto> ObterTodos() {
-            List<AlunoModel> alunoList = alunoRepository.findAll();
-            return alunoList.stream().map(aluno -> modelMapper.map(aluno, AlunoDto.class)).collect(Collectors.toList());
-        }
+    public List<AlunoDto> ObterTodos() {
+        List<AlunoModel> alunoList = alunoRepository.findAll();
+        return alunoList.stream().map(aluno -> aluno.toDto())
+                .collect(Collectors.toList());
+    }
         /*
         MANEIRA MAIS BRAÇAL
-        Dever de casa: Encapsular o model de aluno para DTO para alterar o retorno do metodo
         AlunoModel.toDTO() (this para AlunoDTO)
 
         AlunoDto alunoDto = new AlunoDto();

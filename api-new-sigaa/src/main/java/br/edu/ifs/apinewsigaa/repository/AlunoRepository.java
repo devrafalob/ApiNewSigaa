@@ -22,7 +22,7 @@ public interface AlunoRepository extends JpaRepository<AlunoModel,Integer>  { //
 
     List<AlunoModel> findByNomeContaining(String nome);
 
-    List<AlunoModel> findByOrderByNomeDesc();//OrderBy
+    List<AlunoModel> findByOrderByNomeDesc();
 
     Optional<AlunoModel> findByEmail(String email);
 
