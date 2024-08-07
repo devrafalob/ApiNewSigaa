@@ -20,7 +20,7 @@ public class AlunoModel {
     private int id;
 
     @Pattern(regexp = "[\\p{L} .'-]+",
-            message = "ERRO: O nome deve conter apenas letras e alguns caracteres especiais permitidos(espaços, pontos, acentos, apóstrofos e hífens)")
+            message = "ERRO: O nome deve conter apenas letras e alguns caracteres especiais permitidos(espaços, acentos, apóstrofos e hífens)")
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 

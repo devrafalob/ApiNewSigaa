@@ -1,6 +1,7 @@
 package br.edu.ifs.apinewsigaa.service;
 
 import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
+import br.edu.ifs.apinewsigaa.exception.InternalServerErrorException;
 import br.edu.ifs.apinewsigaa.exception.ObjectNotFoundException;
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
 import br.edu.ifs.apinewsigaa.repository.ProfessorRepository;
@@ -37,35 +38,47 @@ public class ProfessorService {
         return professorModel.toDto();
     }
 
-    public ProfessorDto ObterPorCelular(String celular){
-        Optional<ProfessorModel> professorOptional = professorRepository.findByCelular(celular);
-        ProfessorModel professorModel = professorOptional.orElseThrow(() ->
-                new ObjectNotFoundException("Erro:Celular não encontrado"+celular));
-        return professorModel.toDto();
-    }
-
     @Transactional
     public ProfessorDto Salvar(ProfessorModel novoProfessor){
-        professorRepository.existsByMatricula(novoProfessor.getMatricula());
-        try{
-            return professorRepository.save(novoProfessor).toDto();
-        }catch (DataIntegrityException e){
-            throw new DataIntegrityException("Erro ao salvar o professor.");
+        if(!professorRepository.existsByMatricula(novoProfessor.validarCPF(novoProfessor.getCpf()))) {
+            if(!professorRepository.existsByCpf(novoProfessor.getCpf())){
+                professorRepository.existsByMatricula(novoProfessor.getMatricula());
+                try {
+                    return professorRepository.save(novoProfessor).toDto();
+                } catch (DataIntegrityException e) {
+                    throw new DataIntegrityException("Erro ao salvar o professor.");
+                }
+            }else{
+                throw  new InternalServerErrorException("Erro: Já existe um professor com esse Cpf!");
+            }
+        }else{
+            throw new InternalServerErrorException("Erro: Já existe um professor com essa matricula!");
         }
     }
 
     @Transactional
     public ProfessorDto Atualizar(ProfessorModel professorExistente){
-        try {
-            professorRepository.existsById(professorExistente.getId());
-        }catch (ObjectNotFoundException e){
-            throw new ObjectNotFoundException("Professor Não encontrado. Matricula procurada: "+professorExistente.getMatricula());
-        }
-        try {
-            return professorRepository.save(professorExistente).toDto();
-        }catch(DataIntegrityException e){
-            throw new DataIntegrityException("Erro ao Atualizar o professor.");
+        if(professorRepository.existsById(professorExistente.getId())) {
+            try {
+                return professorRepository.save(professorExistente).toDto();
+            } catch (DataIntegrityException e) {
+                throw new DataIntegrityException("Erro ao Atualizar o professor.");
+            }
+        }else{
+            throw new ObjectNotFoundException("Erro: Professor Não encontrado. Id procurado: " + professorExistente.getMatricula());
         }
     }
 
+    @Transactional
+    public void deletar(int id) {
+        if (professorRepository.existsById(id)) {
+            try {
+                professorRepository.deleteById(id);
+            } catch (DataIntegrityException e) {
+                throw new DataIntegrityException("Erro: Não foi possível deletar o Professor.");
+            }
+        } else {
+            throw new ObjectNotFoundException("Erro: Professor não encontrado. Id procurado: " + id);
+        }
+    }
 }

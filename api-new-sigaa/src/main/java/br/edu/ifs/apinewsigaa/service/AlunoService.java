@@ -63,10 +63,10 @@ public class AlunoService {
                     throw new DataIntegrityException("Erro: Não foi possível criar um novo aluno.");
                 }
             }else{
-                throw new InternalServerErrorException("Erro: Já existe uma pessoa com essa matricula!");
+                throw new InternalServerErrorException("Erro: Já existe um aluno com essa matricula!");
             }
         } else {
-            throw new InternalServerErrorException("Erro: Já existe uma pessoa com esse CPF!");
+            throw new InternalServerErrorException("Erro: Já existe um aluno com esse CPF!");
         }
     }
 
@@ -88,7 +88,7 @@ public class AlunoService {
                 throw new DataIntegrityException("Erro: Não foi possível atualizar o aluno.");
             }
         } else {
-            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id aluno: " + alunoExistente.getId());
+            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id procurado: " + alunoExistente.getId());
         }
     }
     /**
@@ -107,7 +107,7 @@ public class AlunoService {
                 throw new DataIntegrityException("Erro: Não foi possível deletar o aluno.");
             }
         } else {
-            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id aluno: " + id);
+            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id procurado: " + id);
         }
     }
 }

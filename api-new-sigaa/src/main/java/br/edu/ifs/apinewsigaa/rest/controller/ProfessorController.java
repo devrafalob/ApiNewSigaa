@@ -36,12 +36,6 @@ public class ProfessorController {
         return ResponseEntity.ok(professorDto);
     }
 
-    @GetMapping("/{celular}")
-    public ResponseEntity<ProfessorDto> ObterPorCelular(@PathVariable("celular")String celular){
-        ProfessorDto professorDto = professorService.ObterPorCelular(celular);
-        return ResponseEntity.ok(professorDto);
-    }
-
     @PostMapping("/Criar")
     public ResponseEntity<ProfessorDto> Salvar(@RequestBody @Valid ProfessorModel novoProfessor){
         professorService.Salvar(novoProfessor);
@@ -52,5 +46,9 @@ public class ProfessorController {
     public ResponseEntity<ProfessorDto> Atualizar(@RequestBody @Valid ProfessorModel professorExistente){
         professorService.Atualizar(professorExistente);
         return ResponseEntity.ok(professorExistente.toDto());
+    }
+
+    @DeleteMapping("/Deletar")
+    public void deletarPorId(@RequestBody @Valid int id){
     }
 }
