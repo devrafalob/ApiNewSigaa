@@ -25,12 +25,12 @@ public class AlunoModel {
     @Column(name = "cpf", length = 14, nullable = false, unique = true)
     private String cpf;
 
-    @Email(message = "Erro: Email inválido.", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @Email(message = "Erro: Email inválido. O email não pode conter espaços, acentos ou caracteres especiais.", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotEmpty(message = "Erro: O email não pode estar vazio.")
     @Column(name = "email", length = 255, nullable = false, unique = true)
     private String email;
 
-    @Past(message = "Erro: A data de nascimento deve estar no passado.")
+    @Past(message = "Erro: A data inválida. A data deve estar no passado.")
     @NotNull(message = "Erro: A data de nascimento não pode ser nula.")
     @Column(name = "dataNascimento", nullable = false)
     private Date dataNascimento;
@@ -45,17 +45,32 @@ public class AlunoModel {
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
+    /**
+     * Converte o objeto atual para um DTO (Data Transfer Object) de aluno.
+     * Este método utiliza o ModelMapper para mapear os atributos do objeto Aluno para um objeto AlunoDto.
+     *
+     * @return um AlunoDto contendo os dados do aluno mapeados a partir do objeto atual.
+     */
     public AlunoDto toDto(){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, AlunoDto.class);
     }
 
+    /**
+     * Valida um número de CPF (Cadastro de Pessoa Física) fornecido.
+     * Este método utiliza o CPFValidator da biblioteca Caelum Stella para verificar a validade do CPF fornecido.
+     *
+     * @param cpf o número de CPF a ser validado.
+     * @return o número de CPF fornecido se for válido.
+     * @throws DataIntegrityException se o CPF fornecido não for válido.
+     */
     public String validarCPF(String cpf){
+        String cpfLimpo = cpf.replaceAll("\\D", "");
         CPFValidator cpfValidator = new CPFValidator();
         try{
-            cpfValidator.assertValid(cpf);
-            cpfValidator.isEligible(cpf);
-            return cpf;
+            cpfValidator.assertValid(cpfLimpo);
+            cpfValidator.isEligible(cpfLimpo);
+            return cpfLimpo;
         }catch(Exception e){
             throw new DataIntegrityException("Erro: CPF inválido!");
         }

@@ -1,6 +1,7 @@
 package br.edu.ifs.apinewsigaa.service;
 
 import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
+import br.edu.ifs.apinewsigaa.exception.InternalServerErrorException;
 import br.edu.ifs.apinewsigaa.exception.ObjectNotFoundException;
 import br.edu.ifs.apinewsigaa.model.AlunoModel;
 import br.edu.ifs.apinewsigaa.repository.AlunoRepository;
@@ -50,18 +51,22 @@ public class AlunoService {
      * @param novoAluno Os dados que serão armazenados do aluno.
      * @return Um objeto Alunodto correspondente ao aluno salvo.
      * @throws DataIntegrityException Erro na integridade dos dados recebidos e os necessários.
-     * @throws Exception Evita a duplicidade de dados.
+     * @throws InternalServerErrorException Busca possivel duplicidade de dados.
      */
     @Transactional
-    public AlunoDto salvar(AlunoModel novoAluno) throws Exception {
-        if (!alunoRepository.existsByCpf(novoAluno.validarCPF(novoAluno.getCpf())) & !alunoRepository.existsByMatricula(novoAluno.getMatricula())){
-            try {
-                return alunoRepository.save(novoAluno).toDto();
-            } catch (DataIntegrityException e) {
-                throw new DataIntegrityException("Erro: Não foi possível criar um novo aluno.");
+    public AlunoDto salvar(AlunoModel novoAluno) {
+        if (!alunoRepository.existsByCpf(novoAluno.validarCPF(novoAluno.getCpf()))){
+            if(!alunoRepository.existsByMatricula(novoAluno.getMatricula())){
+                try {
+                    return alunoRepository.save(novoAluno).toDto();
+                } catch (DataIntegrityException e) {
+                    throw new DataIntegrityException("Erro: Não foi possível criar um novo aluno.");
+                }
+            }else{
+                throw new InternalServerErrorException("Erro: Já existe uma pessoa com essa matricula!");
             }
         } else {
-            throw new Exception("Erro: O aluno já existe!");
+            throw new InternalServerErrorException("Erro: Já existe uma pessoa com esse CPF!");
         }
     }
 
@@ -73,6 +78,7 @@ public class AlunoService {
      * @throws DataIntegrityException Erro na integridade entre os dados recebidos e os necessários.
      * @throws ObjectNotFoundException Inexistência de um objeto.
      */
+
     @Transactional
     public AlunoDto atualizar(AlunoModel alunoExistente) {
         if (alunoRepository.existsById(alunoExistente.getId())) {
@@ -85,7 +91,6 @@ public class AlunoService {
             throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id aluno: " + alunoExistente.getId());
         }
     }
-
     /**
      * Delete: Deleta uma instância de um objeto.
      *
