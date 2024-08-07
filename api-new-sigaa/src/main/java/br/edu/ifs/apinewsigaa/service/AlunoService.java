@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service //O serviço somente deve acessar outros serviços ou sua classe de repositório
-public class AlunoService { //Classe de serviço é uma classe onde possui regras de negócio
+@Service
+public class AlunoService {
 
-    @Autowired //Injeta dependencias automaticamente do repositório
+    @Autowired
     private AlunoRepository alunoRepository;
 
-    /*
+    /**
      * Obtém um aluno pelo número de matrícula.
      *
      * @param matricula O número de matrícula do aluno a ser obtido.
@@ -33,48 +33,76 @@ public class AlunoService { //Classe de serviço é uma classe onde possui regra
         return alunoModel.toDto();
     }
 
+    /**
+     * Busca  todos os alunos cadastrados.
+     *
+     * @return Uma lista de Alunos.
+     */
     public List<AlunoDto> ObterTodos() {
         List<AlunoModel> alunoList = alunoRepository.findAll();
         return alunoList.stream().map(aluno -> aluno.toDto())
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Post: Insere uma nova instância de aluno.
+     *
+     * @param novoAluno Os dados que serão armazenados do aluno.
+     * @return Um objeto Alunodto correspondente ao aluno salvo.
+     * @throws DataIntegrityException Erro na integridade dos dados recebidos e os necessários.
+     * @throws Exception Evita a duplicidade de dados.
+     */
     @Transactional
     public AlunoDto salvar(AlunoModel novoAluno) throws Exception {
-        if (!alunoRepository.existsByCpf(novoAluno.getCpf())) {
+        if (!alunoRepository.existsByCpf(novoAluno.validarCPF(novoAluno.getCpf())) & !alunoRepository.existsByMatricula(novoAluno.getMatricula())){
             try {
                 return alunoRepository.save(novoAluno).toDto();
             } catch (DataIntegrityException e) {
-                throw new DataIntegrityException("Erro ao criar um novo aluno.");
+                throw new DataIntegrityException("Erro: Não foi possível criar um novo aluno.");
             }
         } else {
-            throw new Exception("O aluno já existe! ");
+            throw new Exception("Erro: O aluno já existe!");
         }
     }
 
+    /**
+     * Put: Atualiza ma instância existente de aluno.
+     *
+     * @param alunoExistente Recebe a instancia de um aluno já existente.
+     * @return Um objeto Dto do aluno atualizado.
+     * @throws DataIntegrityException Erro na integridade entre os dados recebidos e os necessários.
+     * @throws ObjectNotFoundException Inexistência de um objeto.
+     */
     @Transactional
     public AlunoDto atualizar(AlunoModel alunoExistente) {
         if (alunoRepository.existsById(alunoExistente.getId())) {
             try {
                 return alunoRepository.save(alunoExistente).toDto();
             } catch (DataIntegrityException e) {
-                throw new DataIntegrityException("Erro ao atualizar um aluno.");
+                throw new DataIntegrityException("Erro: Não foi possível atualizar o aluno.");
             }
         } else {
-            throw new ObjectNotFoundException("Aluno não encontrado. Id do aluno: " + alunoExistente.getId());
+            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id aluno: " + alunoExistente.getId());
         }
     }
 
+    /**
+     * Delete: Deleta uma instância de um objeto.
+     *
+     * @param id Apaga a instância por meio de um id já existente.
+     * @throws DataIntegrityException Erro na integridade entre os dados recebidos e os necessários.
+     * @throws ObjectNotFoundException Inexistência de um objeto.
+     */
     @Transactional
     public void deletar(int id) {
         if (alunoRepository.existsById(id)) {
             try {
                 alunoRepository.deleteById(id);
             } catch (DataIntegrityException e) {
-                throw new DataIntegrityException("Erro ao deletar um aluno.");
+                throw new DataIntegrityException("Erro: Não foi possível deletar o aluno.");
             }
         } else {
-            throw new ObjectNotFoundException("Aluno não encontrado. Id do aluno: " + id);
+            throw new ObjectNotFoundException("Erro: Aluno não encontrado. Id aluno: " + id);
         }
     }
 }

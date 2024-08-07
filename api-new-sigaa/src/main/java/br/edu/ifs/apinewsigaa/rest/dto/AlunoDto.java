@@ -11,15 +11,6 @@ public class AlunoDto { //DTO é a fronteira da API ligando o front e o back
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "cpf", length = 14, nullable = false, unique = true)
-    private String cpf;
-
-    @Column(name = "email", length = 255, nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "dataNascimento", nullable = false)
-    private Date dataNascimento;
-
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
 
