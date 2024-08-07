@@ -1,5 +1,7 @@
 package br.edu.ifs.apinewsigaa.model;
 
+import br.com.caelum.stella.validation.CPFValidator;
+import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import jakarta.persistence.*; //persistencia de dados
 import lombok.Data; //Gera em tempo de DEV getters, setters e construtores
@@ -40,5 +42,15 @@ public class AlunoModel {
     public AlunoDto toDto(){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, AlunoDto.class);
+    }
+
+    public boolean validarCPF(String cpf){
+        CPFValidator cpfValidator = new CPFValidator();
+        try{
+            cpfValidator.assertValid(cpf);
+            return true;
+        }catch(Exception e){
+            throw new DataIntegrityException("CPF inválido!");
+        }
     }
 }
