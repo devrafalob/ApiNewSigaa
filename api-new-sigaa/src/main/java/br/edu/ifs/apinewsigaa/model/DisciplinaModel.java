@@ -4,12 +4,12 @@ import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @Entity
 @Table(name = "disciplina")
 public class DisciplinaModel {
-    private ModelMapper modelMapper;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,6 +19,7 @@ public class DisciplinaModel {
     private int numeroCreditos;
 
     public DisciplinaDto toDto(){
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this,DisciplinaDto.class);
     }
 }

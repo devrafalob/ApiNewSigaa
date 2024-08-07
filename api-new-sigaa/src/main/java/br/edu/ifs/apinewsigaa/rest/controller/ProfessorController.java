@@ -1,16 +1,19 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
+import br.edu.ifs.apinewsigaa.model.ProfessorModel;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/professor")
 public class ProfessorController {
     @Autowired
     private ProfessorService professorService;
@@ -33,9 +36,21 @@ public class ProfessorController {
         return ResponseEntity.ok(professorDto);
     }
 
-    @GetMapping("/{celular")
+    @GetMapping("/{celular}")
     public ResponseEntity<ProfessorDto> ObterPorCelular(@PathVariable("celular")String celular){
         ProfessorDto professorDto = professorService.ObterPorCelular(celular);
         return ResponseEntity.ok(professorDto);
+    }
+
+    @PostMapping("/Criar")
+    public ResponseEntity<ProfessorDto> Salvar(@RequestBody @Valid ProfessorModel novoProfessor){
+        professorService.Salvar(novoProfessor);
+        return ResponseEntity.ok(novoProfessor.toDto());
+    }
+
+    @PutMapping("/Atualizar")
+    public ResponseEntity<ProfessorDto> Atualizar(@RequestBody @Valid ProfessorModel professorExistente){
+        professorService.Atualizar(professorExistente);
+        return ResponseEntity.ok(professorExistente.toDto());
     }
 }

@@ -4,6 +4,7 @@ import br.edu.ifs.apinewsigaa.rest.dto.TurmaDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
@@ -11,7 +12,6 @@ import java.util.Date;
 @Entity
 @Table(name = "turma")
 public class TurmaModel {
-    private ModelMapper modelMapper;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,6 +25,7 @@ public class TurmaModel {
     private int idDisciplina;
 
     public TurmaDto toDto(){
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, TurmaDto.class);
     }
 }

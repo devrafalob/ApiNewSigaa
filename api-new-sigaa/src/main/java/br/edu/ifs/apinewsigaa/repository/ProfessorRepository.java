@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository //CRUD
 public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integer> { // ENTREGA AS OPERACOES BASICAS BASEADAS NA CHAVE PRIMARIA
     Optional<ProfessorModel> findByMatricula(String matricula);
-    void deleteByMatricula(int matricula);
+    void deleteByMatricula(String matricula);
     Optional<ProfessorModel> findByCpf(String cpf);
     void deleteByCpf(String cpf);
     Optional<ProfessorModel> findByEmail(String email);
     Optional<ProfessorModel> findByCelular(String celular);
     void deleteByCelular(String celular);
-    boolean existsByMatricula(int matricula);
+    boolean existsByMatricula(String matricula);
     @Query(value = """
             SELECT	p.matricula as matricula
             	,	p.nome as nomeProfessor
@@ -32,6 +32,6 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
             			ON (d.id = t.idDisciplina)
             	WHERE p.matricula = :matricula
             """, nativeQuery = true)
-    List<DisciplinaProfessorProjection> ObterDisciplinasProfessor(@Param("matricula") int matricula);
+    List<DisciplinaProfessorProjection> ObterDisciplinasProfessor(@Param("matricula") String matricula);
 
 }

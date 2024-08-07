@@ -4,17 +4,16 @@ import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import jakarta.persistence.*; //persistencia de dados
 import lombok.Data; //Gera em tempo de DEV getters, setters e construtores
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
-@Data // GETTERS/SETTERS/CONSTRUCTORS
-@Entity //IDENTIFICA A CLASSE COMO UMA TABELA DE UM BD GERENCIADA PELO SPRING
-@Table(name = "aluno") //QUAL O NOME DA TABELA ESPECIFICA NO BANCO?
+@Data
+@Entity
+@Table(name = "aluno")
 public class AlunoModel {
-    private ModelMapper modelMapper;
-
-    @Id //IDENTIFICA A PK DO BD
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //SERVE PARA ADICIONAR OS DADOS NO BANCO
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nome", length = 255, nullable = false)
@@ -39,6 +38,7 @@ public class AlunoModel {
     private String matricula;
 
     public AlunoDto toDto(){
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, AlunoDto.class);
     }
 }
