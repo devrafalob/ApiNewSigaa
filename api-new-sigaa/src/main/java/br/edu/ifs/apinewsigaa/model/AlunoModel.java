@@ -5,6 +5,7 @@ import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import jdk.jfr.Name;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
@@ -18,13 +19,15 @@ public class AlunoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Pattern(regexp = "[\\p{L} .'-]+",
+            message = "ERRO: O nome deve conter apenas letras e alguns caracteres especiais permitidos(espaços, pontos, acentos, apóstrofos e hífens)")
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "cpf", length = 14, nullable = false, unique = true)
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
-    @Email(message = "Erro: Email inválido. O email não pode conter espaços, acentos ou caracteres especiais."
+    @Email(message = "Erro: O endereço de email está inválido."
             , regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotEmpty(message = "Erro: O email não pode estar vazio.")
     @Column(name = "email", length = 255, nullable = false, unique = true)
@@ -46,7 +49,7 @@ public class AlunoModel {
     private String matricula;
 
     /**
-     * Converte o objeto atual para um DTO (Data Transfer Object) de aluno.
+     * Converte o objeto atual para um DTO de aluno.
      * Este método utiliza o ModelMapper para mapear os atributos do objeto Aluno para um objeto AlunoDto.
      *
      * @return um AlunoDto contendo os dados do aluno mapeados a partir do objeto atual.
@@ -57,7 +60,7 @@ public class AlunoModel {
     }
 
     /**
-     * Valida um número de CPF (Cadastro de Pessoa Física) fornecido.
+     * Valida um número de CPF fornecido.
      * Este método utiliza o CPFValidator da biblioteca Caelum Stella para verificar a validade do CPF fornecido.
      *
      * @param cpf o número de CPF a ser validado.

@@ -4,10 +4,12 @@ import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class AlunoDto { //DTO é a fronteira da API ligando o front e o back
-                        //A requisição http GET será influenciada pelos campos instanciados no DTO
+public class AlunoDto {
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
+
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
+    private String cpf;
 
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;

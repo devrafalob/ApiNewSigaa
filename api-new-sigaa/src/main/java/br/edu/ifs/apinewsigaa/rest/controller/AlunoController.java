@@ -20,7 +20,7 @@ public class AlunoController {
     /**
      * Obtém todos os alunos cadastrados.
      *
-     * @return Uma lista de {@link AlunoDto} representando todos os alunos.
+     * @return Uma lista de AlunoDto representando todos os alunos.
      */
     @GetMapping
     public ResponseEntity<List<AlunoDto>> findAll() {

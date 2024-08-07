@@ -71,7 +71,7 @@ public class AlunoService {
     }
 
     /**
-     * Put: Atualiza ma instância existente de aluno.
+     * Put: Atualiza na instância existente de aluno.
      *
      * @param alunoExistente Recebe a instancia de um aluno já existente.
      * @return Um objeto Dto do aluno atualizado.
