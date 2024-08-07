@@ -5,9 +5,7 @@ import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,5 +48,6 @@ public class ProfessorController {
 
     @DeleteMapping("/Deletar")
     public void deletarPorId(@RequestBody @Valid int id){
+        professorService.deletar(id);
     }
 }

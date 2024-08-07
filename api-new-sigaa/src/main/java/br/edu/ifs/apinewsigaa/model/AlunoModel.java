@@ -5,7 +5,6 @@ import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import jdk.jfr.Name;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 

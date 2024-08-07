@@ -44,9 +44,6 @@ public class ProfessorModel {
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
-    @Column(name = "endereço", nullable = false, unique = false)
-    private String endereco;
-
     public ProfessorDto toDto(){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, ProfessorDto.class);
