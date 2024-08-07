@@ -23,7 +23,7 @@ public class ProfessorModel {
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "cpf", length = 14, nullable = false, unique = true)
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
     @Email(message = "Erro: O endereço de email está inválido."
