@@ -30,7 +30,7 @@ public class AlunoService {
     public AlunoDto ObterPorMatricula(String matricula) {
         Optional<AlunoModel> alunoOptional = alunoRepository.findByMatricula(matricula);
         AlunoModel alunoModel = alunoOptional.orElseThrow(() ->
-                new ObjectNotFoundException("ERRO: Matrícula não encontrada! Matrícula: " + matricula));
+                new ObjectNotFoundException("Erro: Matrícula não encontrada! Matrícula: " + matricula));
         return alunoModel.toDto();
     }
 

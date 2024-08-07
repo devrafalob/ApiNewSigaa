@@ -3,8 +3,6 @@ package br.edu.ifs.apinewsigaa.rest.dto;
 import jakarta.persistence.Column;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class AlunoDto { //DTO é a fronteira da API ligando o front e o back
                         //A requisição http GET será influenciada pelos campos instanciados no DTO
