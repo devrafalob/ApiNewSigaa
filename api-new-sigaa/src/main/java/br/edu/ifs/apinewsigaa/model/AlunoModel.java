@@ -47,7 +47,7 @@ public class AlunoModel {
     @Column(name = "apelido", length = 255, nullable = true)
     private String apelido;
 
-    @NotEmpty(message = "Erro: A matricual não pode estar vazio.")
+    @NotEmpty(message = "Erro: A matricula não pode estar vazia.")
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 

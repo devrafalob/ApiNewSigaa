@@ -18,11 +18,13 @@ public class ProfessorModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotEmpty(message = "Erro: O nome não pode estar vazio.")
     @Pattern(regexp = "[\\p{L} .'-]+",
             message = "ERRO: O nome deve conter apenas letras e alguns caracteres especiais permitidos(espaços, pontos, acentos, apóstrofos e hífens)")
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
+    @NotEmpty(message = "Erro: O cpf não pode estar vazio.")
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
@@ -37,10 +39,12 @@ public class ProfessorModel {
     @Column(name = "dataNascimento", nullable = false)
     private Date dataNascimento;
 
+    @NotEmpty(message = "Erro: O celular não pode estar vazio.")
     @Pattern(regexp = "^\\d{2} \\d{5}-\\d{4}$", message = "Erro: Número de celular inválido. Formato esperado: XX XXXXX-XXXX.")
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
 
+    @NotEmpty(message = "Erro: A matricula não pode estar vazia.")
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
