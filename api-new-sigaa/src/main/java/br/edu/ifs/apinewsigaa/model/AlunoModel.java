@@ -18,11 +18,13 @@ public class AlunoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotEmpty(message = "Erro: O nome não pode estar vazio.")
     @Pattern(regexp = "[\\p{L} .'-]+",
             message = "ERRO: O nome deve conter apenas letras e alguns caracteres especiais permitidos(espaços, acentos, apóstrofos e hífens)")
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
+    @NotEmpty(message = "Erro: O Cpf não pode estar vazio.")
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
@@ -37,6 +39,7 @@ public class AlunoModel {
     @Column(name = "dataNascimento", nullable = false)
     private Date dataNascimento;
 
+    @NotEmpty(message = "Erro: O celular não pode estar vazio.")
     @Pattern(regexp = "^\\d{2} \\d{5}-\\d{4}$", message = "Erro: Número de celular inválido. Formato esperado: XX XXXXX-XXXX.")
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
@@ -44,6 +47,7 @@ public class AlunoModel {
     @Column(name = "apelido", length = 255, nullable = true)
     private String apelido;
 
+    @NotEmpty(message = "Erro: A matricual não pode estar vazio.")
     @Column(name = "matricula", nullable = false, unique = true)
     private String matricula;
 
