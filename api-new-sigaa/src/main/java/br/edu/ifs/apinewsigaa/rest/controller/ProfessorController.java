@@ -29,7 +29,7 @@ public class ProfessorController {
     }
 
     @GetMapping("/{cpf}")
-    public ResponseEntity<ProfessorDto> ObterPorCpf(@PathVariable("matricula")String cpf){
+    public ResponseEntity<ProfessorDto> ObterPorCpf(@PathVariable("cpf")String cpf){
         ProfessorDto professorDto = professorService.ObterPorCpf(cpf);
         return ResponseEntity.ok(professorDto);
     }
