@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface MatriculaRepository extends JpaRepository<MatriculaModel,Integer> {
     Optional<MatriculaModel> findByIdTurma(Integer integer);
     Optional<MatriculaModel> findByIdAluno(Integer integer);
-
+    boolean existsByIdTurma(int id);
+    void deleteByIdTurma(int id);
 }

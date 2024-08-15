@@ -3,6 +3,7 @@ package br.edu.ifs.apinewsigaa.model;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDtoPlus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -52,6 +53,12 @@ public class ProfessorModel {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(this, ProfessorDto.class);
     }
+
+    public ProfessorDtoPlus toDtoPlus(){
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(this, ProfessorDtoPlus.class);
+    }
+
     public String validarCPF(String cpf){
         String cpfLimpo = cpf.replaceAll("\\D", "");
         CPFValidator cpfValidator = new CPFValidator();

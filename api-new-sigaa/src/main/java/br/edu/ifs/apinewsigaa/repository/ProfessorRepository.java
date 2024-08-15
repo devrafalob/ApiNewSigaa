@@ -32,6 +32,7 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
             		INNER JOIN disciplina d
             			ON (d.id = t.idDisciplina)
             	WHERE p.matricula = :matricula
+            	ORDER BY p.nome asc
             """, nativeQuery = true)
     List<DisciplinaProfessorProjection> ObterDisciplinasProfessor(@Param("matricula") String matricula);
 

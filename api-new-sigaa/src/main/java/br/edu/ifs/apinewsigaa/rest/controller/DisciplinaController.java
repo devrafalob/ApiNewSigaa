@@ -1,13 +1,12 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
+import br.edu.ifs.apinewsigaa.model.DisciplinaModel;
 import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import br.edu.ifs.apinewsigaa.service.DisciplinaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,22 @@ public class DisciplinaController {
     public ResponseEntity<DisciplinaDto> ObterPorNome(@PathVariable("nome") String nome){
         DisciplinaDto disciplinaDto = disciplinaService.ObterPorNome(nome);
         return ResponseEntity.ok(disciplinaDto);
+    }
+
+    @PostMapping("/Criar")
+    public ResponseEntity<DisciplinaDto> Salvar(@RequestBody @Valid DisciplinaModel novaDisciplina){
+        disciplinaService.Salvar(novaDisciplina);
+        return ResponseEntity.ok(novaDisciplina.toDto());
+    }
+
+    @PutMapping("/Atualizar")
+    public ResponseEntity<DisciplinaDto> Atualizar(@RequestBody @Valid DisciplinaModel disciplinaExistente){
+        disciplinaService.Atualizar(disciplinaExistente);
+        return ResponseEntity.ok(disciplinaExistente.toDto());
+    }
+
+    @DeleteMapping("/Deletar")
+    public void Deletar(@RequestBody @Valid int id){
+        disciplinaService.Deletar(id);
     }
 }

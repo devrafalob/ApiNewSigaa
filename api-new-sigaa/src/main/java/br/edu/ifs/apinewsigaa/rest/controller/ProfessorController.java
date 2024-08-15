@@ -1,6 +1,7 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProjection;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
 import jakarta.validation.Valid;
@@ -49,5 +50,10 @@ public class ProfessorController {
     @DeleteMapping("/Deletar")
     public void deletarPorId(@RequestBody @Valid int id){
         professorService.deletar(id);
+    }
+
+    @GetMapping("/disciplinas")
+    public List<DisciplinaProfessorProjection> getDisciplinasPorMatricula(@RequestParam String matricula) {
+        return professorService.obterDisciplinasPorMatricula(matricula);
     }
 }

@@ -15,7 +15,6 @@ public interface TurmaRepository extends JpaRepository<TurmaModel, Integer> {
     Optional<TurmaModel> findByIdProfessor(int id);
     void deleteByIdProfessor(int id);
     Optional<TurmaModel> findByDataInicio(Date date);
-    Optional<TurmaModel> findByDataFim(Date date);
     boolean existsByIdDisciplina(int id);
     boolean existsByIdProfessor(int id);
 }
