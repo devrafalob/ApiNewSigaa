@@ -127,4 +127,12 @@ public class DisciplinaService {
             throw new InternalServerErrorException("Erro: Disciplina não encontrada.");
         }
     }
+
+    public boolean existeDisciplina(int id){
+        if(disciplinaRepository.existsById(id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

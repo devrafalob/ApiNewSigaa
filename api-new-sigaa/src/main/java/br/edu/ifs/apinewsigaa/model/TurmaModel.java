@@ -22,8 +22,7 @@ public class TurmaModel {
     @Column(name = "dataInicio", nullable = false)
     private Date dataInicio;
 
-    @NotNull(message = "Erro: A data de fim não pode ser nulo.")
-    @Column(name = "dataFim", nullable = false)
+    @Column(name = "dataFim", nullable = true)
     private Date dataFim;
 
     @Column(name = "idProfessor", nullable = false)

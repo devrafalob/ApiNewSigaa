@@ -18,7 +18,7 @@ public class MatriculaController {
     MatriculaService matriculaService;
 
     @GetMapping
-    public ResponseEntity<List<MatriculaDto>> FindAll(){
+    public ResponseEntity<List<MatriculaDto>> findAll(){
         List<MatriculaDto> matriculaDtoList = matriculaService.ObterTodos();
         return ResponseEntity.ok(matriculaDtoList);
     }

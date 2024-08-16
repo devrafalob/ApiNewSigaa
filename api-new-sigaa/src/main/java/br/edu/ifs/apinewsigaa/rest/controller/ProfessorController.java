@@ -1,7 +1,8 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
-import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProjection;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProfection;
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
 import jakarta.validation.Valid;
@@ -35,6 +36,18 @@ public class ProfessorController {
         return ResponseEntity.ok(professorDto);
     }
 
+    @GetMapping("/disciplina/{matricula}")
+    public ResponseEntity<ProfessorDisciplinasDto> ObterDisciplinaParaCadaProfessor(@PathVariable("matricula") String matricula) {
+        ProfessorDisciplinasDto professorDisciplinasDto = professorService.ObterPorMatriculaDisciplina(matricula);
+        return ResponseEntity.ok(professorDisciplinasDto);
+    }
+
+    @GetMapping("/disciplina/apenas/{matricula}")
+    public ResponseEntity<List<DisciplinaProfessorProfection>> ObterDisciplinaPorMatricula(@PathVariable("matricula") String matricula){
+        List<DisciplinaProfessorProfection> disciplinaProfessorProfection = professorService.ListaDisciplinaPorProfessor(matricula);
+        return ResponseEntity.ok(disciplinaProfessorProfection);
+    }
+
     @PostMapping("/Criar")
     public ResponseEntity<ProfessorDto> Salvar(@RequestBody @Valid ProfessorModel novoProfessor){
         professorService.Salvar(novoProfessor);
@@ -50,10 +63,5 @@ public class ProfessorController {
     @DeleteMapping("/Deletar")
     public void deletarPorId(@RequestBody @Valid int id){
         professorService.deletar(id);
-    }
-
-    @GetMapping("/disciplinas")
-    public List<DisciplinaProfessorProjection> getDisciplinasPorMatricula(@RequestParam String matricula) {
-        return professorService.obterDisciplinasPorMatricula(matricula);
     }
 }

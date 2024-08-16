@@ -3,8 +3,6 @@ package br.edu.ifs.apinewsigaa.service;
 import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
 import br.edu.ifs.apinewsigaa.exception.ObjectNotFoundException;
 import br.edu.ifs.apinewsigaa.model.TurmaModel;
-import br.edu.ifs.apinewsigaa.repository.DisciplinaRepository;
-import br.edu.ifs.apinewsigaa.repository.ProfessorRepository;
 import br.edu.ifs.apinewsigaa.repository.TurmaRepository;
 import br.edu.ifs.apinewsigaa.rest.dto.TurmaDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +19,10 @@ public class TurmaService {
     TurmaRepository turmaRepository;
 
     @Autowired
-    ProfessorRepository professorRepository;
+    ProfessorService professorService;
 
     @Autowired
-    DisciplinaRepository disciplinaRepository;
+    DisciplinaService disciplinaService;
 
     /**
      * Obtém todas as turmas e as converte para DTOs.
@@ -68,8 +66,8 @@ public class TurmaService {
      */
     @Transactional
     public TurmaDto Salvar(TurmaModel novaTurma) {
-        if(professorRepository.existsById(novaTurma.getIdProfessor())) {
-            if (disciplinaRepository.existsById(novaTurma.getIdDisciplina())) {
+        if(professorService.existeProfessor(novaTurma.getId())) {
+            if (disciplinaService.existeDisciplina(novaTurma.getIdDisciplina())) {
                 return turmaRepository.save(novaTurma).toDto();
             } else {
                 throw new ObjectNotFoundException("Erro: Disciplina não encontrada.");
@@ -92,8 +90,8 @@ public class TurmaService {
     @Transactional
     public TurmaDto Atualizar(TurmaModel turmaExistente) {
         if(turmaRepository.existsById(turmaExistente.getId())) {
-            if(professorRepository.existsById(turmaExistente.getIdProfessor())) {
-                if(disciplinaRepository.existsById(turmaExistente.getIdDisciplina())) {
+            if(professorService.existeProfessor(turmaExistente.getId())) {
+                if(disciplinaService.existeDisciplina(turmaExistente.getIdDisciplina())) {
                     return turmaRepository.save(turmaExistente).toDto();
                 } else {
                     throw new ObjectNotFoundException("Erro: Disciplina não encontrada.");

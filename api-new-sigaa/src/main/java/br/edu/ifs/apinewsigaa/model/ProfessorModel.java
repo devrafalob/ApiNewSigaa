@@ -2,14 +2,15 @@ package br.edu.ifs.apinewsigaa.model;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.edu.ifs.apinewsigaa.exception.DataIntegrityException;
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
-import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDtoPlus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,7 +27,7 @@ public class ProfessorModel {
     private String nome;
 
     @NotEmpty(message = "Erro: O cpf não pode estar vazio.")
-    @Column(name = "cpf", length = 11, nullable = false, unique = true)
+    @Column(name = "cpf", length = 14, nullable = false, unique = true)
     private String cpf;
 
     @Email(message = "Erro: O endereço de email está inválido."
@@ -54,9 +55,9 @@ public class ProfessorModel {
         return modelMapper.map(this, ProfessorDto.class);
     }
 
-    public ProfessorDtoPlus toDtoPlus(){
+    public ProfessorDisciplinasDto toDtoDisciplina(){
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(this, ProfessorDtoPlus.class);
+        return modelMapper.map(ProfessorModel.class, ProfessorDisciplinasDto.class);
     }
 
     public String validarCPF(String cpf){

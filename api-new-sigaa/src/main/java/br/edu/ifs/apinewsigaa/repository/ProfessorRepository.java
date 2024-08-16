@@ -1,7 +1,7 @@
 package br.edu.ifs.apinewsigaa.repository;
 
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
-import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProjection;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProfection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,19 +21,15 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
     void deleteByCelular(String celular);
     boolean existsByMatricula(String matricula);
     boolean existsByCpf(String cpf);
-    @Query(value = """
-            SELECT	p.matricula as matricula
-            	,	p.nome as nomeProfessor
-            	,	d.nome as nomeDisciplina
-            	,	d.numeroCreditos as numeroCreditos
-            	FROM professor p
-            		INNER JOIN turma t
-            			ON (p.id = t.idProfessor)
-            		INNER JOIN disciplina d
-            			ON (d.id = t.idDisciplina)
-            	WHERE p.matricula = :matricula
-            	ORDER BY p.nome asc
-            """, nativeQuery = true)
-    List<DisciplinaProfessorProjection> ObterDisciplinasProfessor(@Param("matricula") String matricula);
 
+    @Query(value = """
+            SELECT d.id
+            ,      d.nome
+            ,      d.numeroCreditos as numeroCreditos
+                FROM turma as t
+                INNER JOIN professor p ON p.id = t.idProfessor
+                INNER JOIN disciplina d ON d.ID = t.idDisciplina
+                WHERE p.matricula = :matricula
+            """, nativeQuery = true)
+    List<DisciplinaProfessorProfection> obterDisciplinasProfessor(@Param("matricula") String matricula);
 }
