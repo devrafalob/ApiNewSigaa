@@ -2,6 +2,7 @@ package br.edu.ifs.apinewsigaa.repository;
 
 import br.edu.ifs.apinewsigaa.model.DisciplinaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -11,4 +12,5 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
     Optional<DisciplinaModel> findByNome(String nome);
     void deleteByNome(String nome);
     boolean existsByNome(String nome);
+
 }

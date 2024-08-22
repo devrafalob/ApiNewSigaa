@@ -11,5 +11,6 @@ public interface MatriculaRepository extends JpaRepository<MatriculaModel,Intege
     Optional<MatriculaModel> findByIdTurma(Integer integer);
     Optional<MatriculaModel> findByIdAluno(Integer integer);
     boolean existsByIdTurma(int id);
+    boolean existsByIdAluno(int id);
     void deleteByIdTurma(int id);
 }

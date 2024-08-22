@@ -5,13 +5,13 @@ import br.edu.ifs.apinewsigaa.exception.InternalServerErrorException;
 import br.edu.ifs.apinewsigaa.exception.ObjectNotFoundException;
 import br.edu.ifs.apinewsigaa.model.DisciplinaModel;
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaComAlunoProjection;
 import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProfection;
 import br.edu.ifs.apinewsigaa.repository.ProfessorRepository;
-import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
-import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasDto;
-import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
+import br.edu.ifs.apinewsigaa.rest.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +24,14 @@ import java.util.stream.Collectors;
 public class ProfessorService {
     @Autowired
     private ProfessorRepository professorRepository;
+
+    @Lazy
+    @Autowired
+    MatriculaService matriculaService;
+
+    @Lazy
+    @Autowired
+    TurmaService turmaService;
 
     /**
      * Obtém todos os professores e os converte para DTOs.
@@ -155,6 +163,7 @@ public class ProfessorService {
             return false;
         }
     }
+
     @Transactional
     public ProfessorDisciplinasDto ObterPorMatriculaDisciplina(String matricula) {
         ModelMapper mapper = new ModelMapper();
@@ -180,8 +189,56 @@ public class ProfessorService {
         return professorDisciplinasDto;
     }
 
+    @Transactional
+    public ProfessorDisciplinasComAlunosDto ObterAlunosProfessorMatricula(String matricula) {
+        ModelMapper mapper = new ModelMapper();
+
+        // BUSCA O PROFESSOR
+        Optional<ProfessorModel> professorOptional = professorRepository.findByMatricula(matricula);
+        ProfessorModel professorModel = professorOptional.orElseThrow(() ->
+                new ObjectNotFoundException("Erro: Matrícula não encontrada! Matrícula " + matricula));
+
+        // BUSCA AS DISCIPLINAS QUE O PROFESSOR LECIONA
+        List<DisciplinaProfessorProfection> disciplinaList = professorRepository.obterDisciplinasProfessor(matricula);
+
+        // MAPEIA CADA DISCIPLINA PARA DisciplinaDto
+        List<DisciplinaDto> disciplinaDtoList = disciplinaList.stream()
+                .map(disciplina -> mapper.map(disciplina, DisciplinaDto.class))
+                .collect(Collectors.toList());
+
+        // ORGANIZA AS DISCIPLINAS COM SEUS ALUNOS
+        List<DisciplinaComAlunosDto> disciplinaComAlunosDtoList = new ArrayList<>();
+
+        // Para cada disciplina, cria um DTO e associa os alunos
+        for (DisciplinaDto disciplinaDto : disciplinaDtoList) {
+            DisciplinaComAlunosDto disciplinaComAlunosDto = new DisciplinaComAlunosDto();
+            disciplinaComAlunosDto.setDisciplina(disciplinaDto);
+
+            // BUSCA OS ALUNOS QUE UMA DISCIPLINA DE UM PROFESSOR POSSUI
+            List<DisciplinaComAlunoProjection> alunosList = professorRepository.obterDisciplinaAlunos(disciplinaDto.getId());
+
+            List<AlunoDto> alunosParaDisciplina = alunosList.stream()
+                    .map(aluno -> mapper.map(aluno, AlunoDto.class))
+                    .collect(Collectors.toList());
+
+            System.out.println(alunosParaDisciplina);
+            disciplinaComAlunosDto.setAlunos(alunosParaDisciplina);
+            disciplinaComAlunosDtoList.add(disciplinaComAlunosDto);
+        }
+
+        // CONFIGURA O DTO DO PROFESSOR E A LISTA DE DISCIPLINAS
+        ProfessorDisciplinasComAlunosDto professorDisciplinasComAlunosDto = new ProfessorDisciplinasComAlunosDto();
+        professorDisciplinasComAlunosDto.setProfessor(professorModel.toDto());
+        professorDisciplinasComAlunosDto.setDisciplinas(disciplinaComAlunosDtoList);
+
+        return professorDisciplinasComAlunosDto;
+    }
+
     public List<DisciplinaProfessorProfection> ListaDisciplinaPorProfessor(String matricula) {
         return professorRepository.obterDisciplinasProfessor(matricula);
     }
 
+    public List<DisciplinaComAlunoProjection> ListaAlunosPorProfessorDisciplina(int idDisciplina){
+        return professorRepository.obterDisciplinaAlunos(idDisciplina);
+    }
 }

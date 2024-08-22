@@ -121,4 +121,12 @@ public class TurmaService {
             throw new DataIntegrityException("Erro ao deletar a turma.");
         }
     }
+
+    public boolean existeTurmaPorIdDisciplina(int id){
+        if(turmaRepository.existsByIdDisciplina(id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

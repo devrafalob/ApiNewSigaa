@@ -8,9 +8,6 @@ import java.util.Date;
 
 @Data
 public class ProfessorDto {
-    @Column(name = "matricula", nullable = false, unique = true)
-    private String matricula;
-
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
@@ -25,4 +22,7 @@ public class ProfessorDto {
 
     @Column(name = "celular", length = 14, nullable = false, unique = true)
     private String celular;
+
+    @Column(name = "matricula", nullable = false, unique = true)
+    private String matricula;
 }

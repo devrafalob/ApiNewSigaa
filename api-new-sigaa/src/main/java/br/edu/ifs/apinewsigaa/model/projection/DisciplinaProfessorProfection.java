@@ -4,4 +4,5 @@ public interface DisciplinaProfessorProfection {
     int getId();
     String getNome();
     String getNumeroCreditos();
+
 }

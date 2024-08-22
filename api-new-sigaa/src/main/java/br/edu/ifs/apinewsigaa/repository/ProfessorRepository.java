@@ -1,6 +1,7 @@
 package br.edu.ifs.apinewsigaa.repository;
 
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaComAlunoProjection;
 import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProfection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,23 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
                 WHERE p.matricula = :matricula
             """, nativeQuery = true)
     List<DisciplinaProfessorProfection> obterDisciplinasProfessor(@Param("matricula") String matricula);
+
+    @Query(value = """
+            SELECT DISTINCT a.id
+            ,      a.nome
+            ,      a.cpf
+            ,      a.email as email
+            ,      a.dataNascimento
+            ,      a.celular
+            ,      a.apelido
+            ,      a.matricula
+                FROM matricula as m
+                INNER JOIN aluno a ON a.id = m.idAluno
+                INNER JOIN turma t ON t.id = m.idTurma
+                INNER JOIN disciplina d ON d.ID = t.idDisciplina
+                INNER JOIN professor p ON p.id = t.idProfessor
+                WHERE d.id = :idDisciplina
+            """, nativeQuery = true)
+    List<DisciplinaComAlunoProjection> obterDisciplinaAlunos(@Param("idDisciplina") int disciplina);
+
 }

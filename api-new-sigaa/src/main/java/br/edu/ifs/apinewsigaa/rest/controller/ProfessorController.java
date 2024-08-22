@@ -1,7 +1,10 @@
 package br.edu.ifs.apinewsigaa.rest.controller;
 
 import br.edu.ifs.apinewsigaa.model.ProfessorModel;
+import br.edu.ifs.apinewsigaa.model.projection.DisciplinaComAlunoProjection;
 import br.edu.ifs.apinewsigaa.model.projection.DisciplinaProfessorProfection;
+import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaComAlunosDto;
+import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasComAlunosDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
@@ -42,10 +45,10 @@ public class ProfessorController {
         return ResponseEntity.ok(professorDisciplinasDto);
     }
 
-    @GetMapping("/disciplina/apenas/{matricula}")
-    public ResponseEntity<List<DisciplinaProfessorProfection>> ObterDisciplinaPorMatricula(@PathVariable("matricula") String matricula){
-        List<DisciplinaProfessorProfection> disciplinaProfessorProfection = professorService.ListaDisciplinaPorProfessor(matricula);
-        return ResponseEntity.ok(disciplinaProfessorProfection);
+    @GetMapping("/alunos/disciplina/{matricula}")
+    public ResponseEntity<ProfessorDisciplinasComAlunosDto> ObterAlunosProfessorDisciplina(@PathVariable("matricula")String matricula){
+        ProfessorDisciplinasComAlunosDto professorDisciplinasComAlunosDto = professorService.ObterAlunosProfessorMatricula(matricula);
+        return ResponseEntity.ok(professorDisciplinasComAlunosDto);
     }
 
     @PostMapping("/Criar")

@@ -98,4 +98,12 @@ public class MatriculaService {
     public void Deletar(int id) {
         matriculaRepository.deleteById(id);
     }
+
+    public boolean existePorIdAluno(int id){
+        if (matriculaRepository.existsByIdAluno(id)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
