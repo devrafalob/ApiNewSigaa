@@ -157,11 +157,7 @@ public class ProfessorService {
     }
 
     public boolean existeProfessor(int id){
-        if(professorRepository.existsById(id)){
-            return true;
-        }else{
-            return false;
-        }
+        return professorRepository.existsById(id);
     }
 
     @Transactional

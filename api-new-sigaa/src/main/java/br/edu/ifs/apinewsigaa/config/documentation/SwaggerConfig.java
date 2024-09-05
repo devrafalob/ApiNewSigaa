@@ -25,7 +25,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info().title("NewSigaa API")
                         .description("Api do Projeto Corporativo do NewSigaa")
-                        .version("v0.0.2")
+                        .version("v0.1.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("NewSigaa Wiki Documentation")

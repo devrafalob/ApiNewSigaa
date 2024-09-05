@@ -31,6 +31,7 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
                 INNER JOIN professor p ON p.id = t.idProfessor
                 INNER JOIN disciplina d ON d.ID = t.idDisciplina
                 WHERE p.matricula = :matricula
+                AND d.dataFim = null
             """, nativeQuery = true)
     List<DisciplinaProfessorProfection> obterDisciplinasProfessor(@Param("matricula") String matricula);
 
@@ -49,6 +50,7 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
                 INNER JOIN disciplina d ON d.ID = t.idDisciplina
                 INNER JOIN professor p ON p.id = t.idProfessor
                 WHERE d.id = :idDisciplina
+                AND d.dataFim = null
             """, nativeQuery = true)
     List<DisciplinaComAlunoProjection> obterDisciplinaAlunos(@Param("idDisciplina") int disciplina);
 
