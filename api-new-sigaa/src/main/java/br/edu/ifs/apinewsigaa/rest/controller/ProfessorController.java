@@ -8,6 +8,7 @@ import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasComAlunosDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apinewsigaa.rest.dto.ProfessorDto;
 import br.edu.ifs.apinewsigaa.service.ProfessorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/professor")
+@SecurityRequirement(name="Keycloak")
 public class ProfessorController {
     @Autowired
     private ProfessorService professorService;

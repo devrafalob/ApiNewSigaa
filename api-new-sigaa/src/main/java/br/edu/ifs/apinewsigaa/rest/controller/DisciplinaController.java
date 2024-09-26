@@ -3,6 +3,7 @@ package br.edu.ifs.apinewsigaa.rest.controller;
 import br.edu.ifs.apinewsigaa.model.DisciplinaModel;
 import br.edu.ifs.apinewsigaa.rest.dto.DisciplinaDto;
 import br.edu.ifs.apinewsigaa.service.DisciplinaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/disciplina")
+@SecurityRequirement(name="Keycloak")
 public class DisciplinaController {
     @Autowired
     private DisciplinaService disciplinaService;

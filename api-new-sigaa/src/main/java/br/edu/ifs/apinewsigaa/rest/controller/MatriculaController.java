@@ -4,6 +4,7 @@ package br.edu.ifs.apinewsigaa.rest.controller;
 import br.edu.ifs.apinewsigaa.model.MatriculaModel;
 import br.edu.ifs.apinewsigaa.rest.dto.MatriculaDto;
 import br.edu.ifs.apinewsigaa.service.MatriculaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/matricula")
+@SecurityRequirement(name="Keycloak")
 public class MatriculaController {
     @Autowired
     MatriculaService matriculaService;

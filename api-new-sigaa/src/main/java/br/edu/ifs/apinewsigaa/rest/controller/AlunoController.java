@@ -3,6 +3,7 @@ package br.edu.ifs.apinewsigaa.rest.controller;
 import br.edu.ifs.apinewsigaa.model.AlunoModel;
 import br.edu.ifs.apinewsigaa.rest.dto.AlunoDto;
 import br.edu.ifs.apinewsigaa.service.AlunoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Valid
 @RestController
 @RequestMapping("/aluno")
+@SecurityRequirement(name="Keycloak")
 public class AlunoController {
     @Autowired
     private AlunoService alunoService;

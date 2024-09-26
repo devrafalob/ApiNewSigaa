@@ -3,6 +3,7 @@ package br.edu.ifs.apinewsigaa.rest.controller;
 import br.edu.ifs.apinewsigaa.model.TurmaModel;
 import br.edu.ifs.apinewsigaa.rest.dto.TurmaDto;
 import br.edu.ifs.apinewsigaa.service.TurmaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/turma")
+@SecurityRequirement(name="Keycloak")
 public class TurmaController {
     @Autowired
     TurmaService turmaService;
